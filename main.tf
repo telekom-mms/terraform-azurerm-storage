@@ -37,7 +37,7 @@ resource "azurerm_storage_container" "storage_container" {
   for_each = var.storage_container
 
   name                  = each.key
-  storage_account_name  = lookup(local.storage_container[each.key], "storage_account_name",azurerm_storage_account.storage_account[element(keys(var.resource_name.storage_account), 0)].name)
+  storage_account_name  = lookup(local.storage_container[each.key], "storage_account_name", azurerm_storage_account.storage_account[element(keys(var.resource_name.storage_account), 0)].name)
   container_access_type = local.storage_container[each.key].container_access_type
 }
 
@@ -46,13 +46,13 @@ resource "azurerm_storage_share" "storage_share" {
 
   name                 = each.key
   metadata             = local.storage_share[each.key].metadata
-  storage_account_name = lookup(local.storage_share[each.key], "storage_account_name",azurerm_storage_account.storage_account[element(keys(var.resource_name.storage_account), 0)].name)
+  storage_account_name = lookup(local.storage_share[each.key], "storage_account_name", azurerm_storage_account.storage_account[element(keys(var.resource_name.storage_account), 0)].name)
   quota                = local.storage_share[each.key].quota
 
   dynamic "acl" {
     for_each = contains(keys(var.storage_share_config), "acl") == true ? [1] : []
     content {
-      id     = local.storage_share_config.acl[each.key].id
+      id = local.storage_share_config.acl[each.key].id
 
       dynamic "access_policy" {
         for_each = local.storage_share_config.acl[each.key].access_policy
@@ -72,5 +72,5 @@ resource "azurerm_storage_share_directory" "storage_share_directory" {
   name                 = each.key
   metadata             = local.storage_share_directory[each.key].metadata
   share_name           = lookup(local.storage_share_directory[each.key], "share_name", azurerm_storage_share.storage_share[element(keys(var.storage_share), 0)].name)
-  storage_account_name = lookup(local.storage_share_directory[each.key], "storage_account_name",azurerm_storage_account.storage_account[element(keys(var.resource_name.storage_account), 0)].name)
+  storage_account_name = lookup(local.storage_share_directory[each.key], "storage_account_name", azurerm_storage_account.storage_account[element(keys(var.resource_name.storage_account), 0)].name)
 }

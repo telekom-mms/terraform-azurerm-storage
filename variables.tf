@@ -90,8 +90,8 @@ locals {
   }
 
   # merge custom and default values
-  tags                    = merge(local.default.tags, var.tags)
-  storage_account         = merge(local.default.storage_account, var.storage_account)
+  tags            = merge(local.default.tags, var.tags)
+  storage_account = merge(local.default.storage_account, var.storage_account)
 
   # deep merge over custom and default values
   storage_account_config = {
