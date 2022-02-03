@@ -33,16 +33,10 @@ This module manages Azure Storage Configuration.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| location | location where the resource should be created | `string` | n/a | yes |
-| resource_group_name | resource_group whitin the resource should be created | `string` | n/a | yes |
-| resource_name | Azure Storage Account | `any` | `{}` | no |
 | storage_account | resource definition, default settings are defined within locals and merged with var settings | `any` | `{}` | no |
-| storage_account_config | resource configuration, default settings are defined within locals and merged with var settings | `any` | `{}` | no |
 | storage_container | resource definition, default settings are defined within locals and merged with var settings | `any` | `{}` | no |
 | storage_share | resource definition, default settings are defined within locals and merged with var settings | `any` | `{}` | no |
-| storage_share_config | resource configuration, default settings are defined within locals and merged with var settings | `any` | `{}` | no |
 | storage_share_directory | resource definition, default settings are defined within locals and merged with var settings | `any` | `{}` | no |
-| tags | mapping of tags to assign, default settings are defined within locals and merged with var settings | `any` | `{}` | no |
 
 ## Outputs
 
@@ -55,21 +49,24 @@ This module manages Azure Storage Configuration.
 ```hcl
 module "storage" {
   source              = "../terraform-storage"
-  location            = "westeurope"
-  resource_group_name = "service-infrastructure-rg"
-  resource_name = {
-    storage_account = {
-      mgmt = "servicemgmtstg"
+  storage_account = {
+    mgmt = {
+      name = "servicemgmtstg"
+      resource_group_name = "service-infrastructure-rg"
+      location            = "westeurope"
+      account_replication_type = "LRS"
+       tags = {
+        service = "service_name"
+      }
     }
   }
-  storage_account = {
-    account_replication_type = "LRS"
-  }
   storage_container = {
-    terraform = {}
-  }
-  tags = {
-    service = "service_name"
+    terraform = {
+      storage_account_name = module.storage.storage_account.mgmt.name
+      tags = {
+        service = "service_name"
+      }
+    }
   }
 }
 ```
