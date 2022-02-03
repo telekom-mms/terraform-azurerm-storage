@@ -23,7 +23,7 @@ locals {
   default = {
     # resource definition
     storage_account = {
-      name = ""
+      name                      = ""
       account_kind              = "StorageV2"
       account_tier              = "Standard"
       account_replication_type  = "ZRS"
@@ -38,12 +38,12 @@ locals {
       tags = {}
     }
     storage_container = {
-      name = ""
+      name                  = ""
       container_access_type = "private"
-      tags = {}
+      tags                  = {}
     }
     storage_share = {
-      name = ""
+      name     = ""
       metadata = {}
       quota    = "50"
       acl = {
@@ -54,9 +54,9 @@ locals {
       tags = {}
     }
     storage_share_directory = {
-      name = ""
+      name     = ""
       metadata = {}
-      tags = {}
+      tags     = {}
     }
   }
 

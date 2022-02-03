@@ -7,8 +7,8 @@
 resource "azurerm_storage_account" "storage_account" {
   for_each = var.storage_account
 
-  name     = local.storage_account[each.key].name == "" ? each.key : local.storage_account[each.key].name
-  location = local.storage_account[each.key].location
+  name                      = local.storage_account[each.key].name == "" ? each.key : local.storage_account[each.key].name
+  location                  = local.storage_account[each.key].location
   resource_group_name       = local.storage_account[each.key].resource_group_name
   account_kind              = local.storage_account[each.key].account_kind
   account_tier              = local.storage_account[each.key].account_tier
