@@ -1,5 +1,4 @@
 <!-- BEGIN_TF_DOCS -->
-
 # storage
 
 This module manages Azure Storage Configuration.
@@ -8,53 +7,53 @@ This module manages Azure Storage Configuration.
 
 ## Requirements
 
-| Name      | Version |
-| --------- | ------- |
-| terraform | >=1.0   |
-| azurerm   | >=2.79  |
+| Name | Version |
+|------|---------|
+| terraform | >=1.0 |
+| azurerm | >=2.79 |
 
 ## Providers
 
-| Name    | Version |
-| ------- | ------- |
-| azurerm | >=2.79  |
+| Name | Version |
+|------|---------|
+| azurerm | >=2.79 |
 
 ## Resources
 
-| Name                                                    | Type     |
-| ------------------------------------------------------- | -------- |
-| azurerm_storage_account.storage_account                 | resource |
-| azurerm_storage_container.storage_container             | resource |
-| azurerm_storage_share.storage_share                     | resource |
+| Name | Type |
+|------|------|
+| azurerm_storage_account.storage_account | resource |
+| azurerm_storage_container.storage_container | resource |
+| azurerm_storage_share.storage_share | resource |
 | azurerm_storage_share_directory.storage_share_directory | resource |
 
 ## Inputs
 
-| Name                    | Description                                                                                  | Type  | Default | Required |
-| ----------------------- | -------------------------------------------------------------------------------------------- | ----- | ------- | :------: |
-| storage_account         | resource definition, default settings are defined within locals and merged with var settings | `any` | `{}`    |    no    |
-| storage_container       | resource definition, default settings are defined within locals and merged with var settings | `any` | `{}`    |    no    |
-| storage_share           | resource definition, default settings are defined within locals and merged with var settings | `any` | `{}`    |    no    |
-| storage_share_directory | resource definition, default settings are defined within locals and merged with var settings | `any` | `{}`    |    no    |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| storage_account | resource definition, default settings are defined within locals and merged with var settings | `any` | `{}` | no |
+| storage_container | resource definition, default settings are defined within locals and merged with var settings | `any` | `{}` | no |
+| storage_share | resource definition, default settings are defined within locals and merged with var settings | `any` | `{}` | no |
+| storage_share_directory | resource definition, default settings are defined within locals and merged with var settings | `any` | `{}` | no |
 
 ## Outputs
 
-| Name            | Description                     |
-| --------------- | ------------------------------- |
+| Name | Description |
+|------|-------------|
 | storage_account | azurerm_storage_account results |
 
 ## Examples
 
 ```hcl
 module "storage" {
-  source              = "../terraform-storage"
+  source = "../terraform-storage"
   storage_account = {
     mgmt = {
-      name = "servicemgmtstg"
-      resource_group_name = "service-infrastructure-rg"
-      location            = "westeurope"
+      name                     = "servicemgmtstg"
+      resource_group_name      = "service-infrastructure-rg"
+      location                 = "westeurope"
       account_replication_type = "LRS"
-       tags = {
+      tags = {
         service = "service_name"
       }
     }
@@ -69,5 +68,4 @@ module "storage" {
   }
 }
 ```
-
 <!-- END_TF_DOCS -->
