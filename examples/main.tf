@@ -1,12 +1,12 @@
 module "storage" {
-  source              = "../terraform-storage"
+  source = "../terraform-storage"
   storage_account = {
     mgmt = {
-      name = "servicemgmtstg"
-      resource_group_name = "service-infrastructure-rg"
-      location            = "westeurope"
+      name                     = "servicemgmtstg"
+      resource_group_name      = "service-infrastructure-rg"
+      location                 = "westeurope"
       account_replication_type = "LRS"
-       tags = {
+      tags = {
         service = "service_name"
       }
     }
