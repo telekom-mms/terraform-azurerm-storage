@@ -41,6 +41,7 @@ This module manages Azure Storage Configuration.
 | Name | Description |
 |------|-------------|
 | storage_account | azurerm_storage_account results |
+| storage_container | azurerm_storage_container results |
 
 ## Examples
 
