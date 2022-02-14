@@ -31,11 +31,8 @@ locals {
       enable_https_traffic_only = true
       allow_blob_public_access  = false
       shared_access_key_enabled = true
-      static_website = {
-        index_document     = "index.html"
-        error_404_document = "404.html"
-      }
-      tags = {}
+      static_website            = {}
+      tags                      = {}
     }
     storage_container = {
       name                  = ""
