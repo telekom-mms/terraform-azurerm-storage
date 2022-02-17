@@ -1,5 +1,5 @@
 module "storage" {
-  source = "../terraform-storage"
+  source = "registry.terraform.io/T-Systems-MMS/storage/azurerm"
   storage_account = {
     mgmt = {
       name                     = "servicemgmtstg"
