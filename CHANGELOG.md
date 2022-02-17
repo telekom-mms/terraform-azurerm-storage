@@ -1,8 +1,8 @@
 # Changelog
 
-## [0.0.1](https://github.com/T-Systems-MMS/terraform-storage/tree/0.0.1) (2021-12-16)
+## [0.0.1](https://github.com/T-Systems-MMS/terraform-azurerm-storage/tree/0.0.1) (2021-12-16)
 
-[Full Changelog](https://github.com/T-Systems-MMS/terraform-storage/compare/cfd8018085c4154ec491cd259bd9eaa5d9575ace...0.0.1)
+[Full Changelog](https://github.com/T-Systems-MMS/terraform-azurerm-storage/compare/cfd8018085c4154ec491cd259bd9eaa5d9575ace...0.0.1)
 
 
 
