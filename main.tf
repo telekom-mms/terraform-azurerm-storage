@@ -22,8 +22,8 @@ resource "azurerm_storage_account" "storage_account" {
     /** is static website config set and should be enabled */
     for_each = local.storage_account[each.key].static_website != {} ? [1] : []
     content {
-      index_document     = local.storage_account[each.key].static_website[static_website.key].index_document
-      error_404_document = local.storage_account[each.key].static_website[static_website.key].error_404_document
+      index_document     = local.storage_account[each.key].static_website.index_document
+      error_404_document = local.storage_account[each.key].static_website.error_404_document
     }
   }
 
