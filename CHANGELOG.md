@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.2](https://github.com/T-Systems-MMS/terraform-azurerm-storage/tree/1.0.2) (2022-04-01)
+
+[Full Changelog](https://github.com/T-Systems-MMS/terraform-azurerm-storage/compare/1.0.1...1.0.2)
+
+**Merged pull requests:**
+
+- fix loop error if static\_website is enabled [\#4](https://github.com/T-Systems-MMS/terraform-azurerm-storage/pull/4) ([michaelamattes](https://github.com/michaelamattes))
+
 ## [1.0.1](https://github.com/T-Systems-MMS/terraform-azurerm-storage/tree/1.0.1) (2022-03-18)
 
 [Full Changelog](https://github.com/T-Systems-MMS/terraform-azurerm-storage/compare/1.0.0...1.0.1)
