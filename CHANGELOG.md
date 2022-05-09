@@ -1,5 +1,31 @@
 # Changelog
 
+=======
+## [1.0.2](https://github.com/T-Systems-MMS/terraform-azurerm-storage/tree/1.0.2) (2022-04-01)
+
+[Full Changelog](https://github.com/T-Systems-MMS/terraform-azurerm-storage/compare/1.0.1...1.0.2)
+
+**Merged pull requests:**
+
+- fix loop error if static\_website is enabled [\#4](https://github.com/T-Systems-MMS/terraform-azurerm-storage/pull/4) ([michaelamattes](https://github.com/michaelamattes))
+
+## [1.0.1](https://github.com/T-Systems-MMS/terraform-azurerm-storage/tree/1.0.1) (2022-03-18)
+
+[Full Changelog](https://github.com/T-Systems-MMS/terraform-azurerm-storage/compare/1.0.0...1.0.1)
+
+**Merged pull requests:**
+
+- add more output to storage\_account [\#3](https://github.com/T-Systems-MMS/terraform-azurerm-storage/pull/3) ([michaelamattes](https://github.com/michaelamattes))
+
+## [1.0.0](https://github.com/T-Systems-MMS/terraform-azurerm-storage/tree/1.0.0) (2022-02-17)
+
+[Full Changelog](https://github.com/T-Systems-MMS/terraform-azurerm-storage/compare/0.0.1...1.0.0)
+
+**Merged pull requests:**
+
+- Change var behaviour [\#2](https://github.com/T-Systems-MMS/terraform-azurerm-storage/pull/2) ([michaelamattes](https://github.com/michaelamattes))
+- move to github [\#1](https://github.com/T-Systems-MMS/terraform-azurerm-storage/pull/1) ([michaelamattes](https://github.com/michaelamattes))
+
 ## [0.0.1](https://github.com/T-Systems-MMS/terraform-azurerm-storage/tree/0.0.1) (2021-12-16)
 
 [Full Changelog](https://github.com/T-Systems-MMS/terraform-azurerm-storage/compare/cfd8018085c4154ec491cd259bd9eaa5d9575ace...0.0.1)
