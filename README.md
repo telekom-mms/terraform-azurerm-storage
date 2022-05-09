@@ -9,14 +9,14 @@ This module manages Azure Storage Configuration.
 
 | Name | Version |
 |------|---------|
-| terraform | >=1.0 |
-| azurerm | >=3.2 |
+| terraform | >=1.1 |
+| azurerm | >=3.5 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| azurerm | >=3.2 |
+| azurerm | >=3.5 |
 
 ## Resources
 

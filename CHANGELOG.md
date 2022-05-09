@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.0.0](https://github.com/T-Systems-MMS/terraform-azurerm-storage/tree/2.0.0) (2022-05-09)
+
+[Full Changelog](https://github.com/T-Systems-MMS/terraform-azurerm-storage/compare/1.0.2...2.0.0)
+
+**Merged pull requests:**
+
+- Update hashicorp/setup-terraform action to v2 [\#13](https://github.com/T-Systems-MMS/terraform-azurerm-storage/pull/13) ([renovate[bot]](https://github.com/apps/renovate))
+- Update creyD/prettier\_action action to v4 [\#12](https://github.com/T-Systems-MMS/terraform-azurerm-storage/pull/12) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/checkout action [\#11](https://github.com/T-Systems-MMS/terraform-azurerm-storage/pull/11) ([renovate[bot]](https://github.com/apps/renovate))
+- Update github-actions-x/commit action to v2.9 [\#10](https://github.com/T-Systems-MMS/terraform-azurerm-storage/pull/10) ([renovate[bot]](https://github.com/apps/renovate))
+- add renovate config [\#6](https://github.com/T-Systems-MMS/terraform-azurerm-storage/pull/6) ([michaelamattes](https://github.com/michaelamattes))
+- Azurerm 3x [\#5](https://github.com/T-Systems-MMS/terraform-azurerm-storage/pull/5) ([michaelamattes](https://github.com/michaelamattes))
+
 ## [1.0.2](https://github.com/T-Systems-MMS/terraform-azurerm-storage/tree/1.0.2) (2022-04-01)
 
 [Full Changelog](https://github.com/T-Systems-MMS/terraform-azurerm-storage/compare/1.0.1...1.0.2)
