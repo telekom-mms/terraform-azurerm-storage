@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.1](https://github.com/T-Systems-MMS/terraform-azurerm-storage/tree/2.0.1) (2022-05-09)
+
+[Full Changelog](https://github.com/T-Systems-MMS/terraform-azurerm-storage/compare/2.0.0...2.0.1)
+
+**Implemented enhancements:**
+
+- add new default options to newest provider [\#14](https://github.com/T-Systems-MMS/terraform-azurerm-storage/pull/14) ([michaelamattes](https://github.com/michaelamattes))
+
 ## [2.0.0](https://github.com/T-Systems-MMS/terraform-azurerm-storage/tree/2.0.0) (2022-05-09)
 
 [Full Changelog](https://github.com/T-Systems-MMS/terraform-azurerm-storage/compare/1.0.2...2.0.0)
