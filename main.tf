@@ -28,7 +28,7 @@ resource "azurerm_storage_account" "storage_account" {
   infrastructure_encryption_enabled = local.storage_account[each.key].infrastructure_encryption_enabled
 
   dynamic "custom_domain" {
-    for_each = local.storage_account[each.key].custom_domain.name == "" ? [1] : []
+    for_each = local.storage_account[each.key].custom_domain.name != "" ? [1] : []
     content {
       name          = local.storage_account[each.key].custom_domain.name
       use_subdomain = local.storage_account[each.key].custom_domain.use_subdomain
