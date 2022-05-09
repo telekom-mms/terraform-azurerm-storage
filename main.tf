@@ -13,6 +13,7 @@ resource "azurerm_storage_account" "storage_account" {
   account_kind                      = local.storage_account[each.key].account_kind
   account_tier                      = local.storage_account[each.key].account_tier
   account_replication_type          = local.storage_account[each.key].account_replication_type
+  cross_tenant_replication_enabled  = local.storage_account[each.key].cross_tenant_replication_enabled
   access_tier                       = local.storage_account[each.key].access_tier
   edge_zone                         = local.storage_account[each.key].edge_zone
   enable_https_traffic_only         = local.storage_account[each.key].enable_https_traffic_only

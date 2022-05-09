@@ -27,6 +27,7 @@ locals {
       account_kind                      = "StorageV2"
       account_tier                      = "Standard"
       account_replication_type          = "ZRS"
+      cross_tenant_replication_enabled  = false
       access_tier                       = "Hot"
       edge_zone                         = null
       enable_https_traffic_only         = true
