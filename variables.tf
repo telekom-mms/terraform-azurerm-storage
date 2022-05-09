@@ -23,16 +23,47 @@ locals {
   default = {
     # resource definition
     storage_account = {
-      name                      = ""
-      account_kind              = "StorageV2"
-      account_tier              = "Standard"
-      account_replication_type  = "ZRS"
-      access_tier               = "Hot"
-      enable_https_traffic_only = true
-      allow_blob_public_access  = false
-      shared_access_key_enabled = true
-      static_website            = {}
-      tags                      = {}
+      name                              = ""
+      account_kind                      = "StorageV2"
+      account_tier                      = "Standard"
+      account_replication_type          = "ZRS"
+      access_tier                       = "Hot"
+      edge_zone                         = null
+      enable_https_traffic_only         = true
+      min_tls_version                   = "TLS1_2"
+      allow_nested_items_to_be_public   = false
+      shared_access_key_enabled         = true
+      is_hns_enabled                    = null
+      nfsv3_enabled                     = false
+      large_file_share_enabled          = null
+      queue_encryption_key_type         = null
+      table_encryption_key_type         = null
+      infrastructure_encryption_enabled = false
+      custom_domain = {
+        name          = ""
+        use_subdomain = null
+      }
+      customer_managed_key = {}
+      identity = {
+        type         = ""
+        identity_ids = null
+      }
+      blob_properties  = {}
+      queue_properties = {}
+      static_website   = {}
+      network_rules = {
+        default_action             = ""
+        bypass                     = null
+        ip_rules                   = []
+        virtual_network_subnet_ids = []
+        private_link_access        = {}
+      }
+      azure_files_authentication = {
+        directory_type   = ""
+        active_directory = {}
+      }
+      routing = {}
+      tags    = {}
     }
     storage_container = {
       name                  = ""
@@ -73,7 +104,8 @@ locals {
     storage_account => merge(
       local.storage_account_values[storage_account],
       {
-        for config in ["static_website"] :
+        #for config in ["custom_domain", "customer_managed_key", "identity", "blob_properties", "queue_properties", "static_website", "network_rules", "azure_files_authentication", "routing", "queue_encryption_key_type", "table_encryption_key_type", "infrastructure_encryption_enabled"] :
+        for config in ["custom_domain", "customer_managed_key", "identity", "static_website", "azure_files_authentication", "routing", ] :
         config => merge(local.default.storage_account[config], local.storage_account_values[storage_account][config])
       }
     )
