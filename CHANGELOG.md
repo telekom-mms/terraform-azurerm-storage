@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.2](https://github.com/T-Systems-MMS/terraform-azurerm-storage/tree/2.0.2) (2022-05-09)
+
+[Full Changelog](https://github.com/T-Systems-MMS/terraform-azurerm-storage/compare/2.0.1...2.0.2)
+
+**Fixed bugs:**
+
+- fix condition use to verify custom\_domain settings [\#15](https://github.com/T-Systems-MMS/terraform-azurerm-storage/pull/15) ([michaelamattes](https://github.com/michaelamattes))
+
 ## [2.0.1](https://github.com/T-Systems-MMS/terraform-azurerm-storage/tree/2.0.1) (2022-05-09)
 
 [Full Changelog](https://github.com/T-Systems-MMS/terraform-azurerm-storage/compare/2.0.0...2.0.1)
