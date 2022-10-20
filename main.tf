@@ -61,11 +61,11 @@ resource "azurerm_storage_account" "storage_account" {
       dynamic "cors_rule" {
         for_each = local.storage_account[each.key].blob_properties.cors_rule
         content {
-          allowed_headers    = local.storage_account[each.key].blob_properties.cors_rule.allowed_headers
-          allowed_methods    = local.storage_account[each.key].blob_properties.cors_rule.allowed_methods
-          allowed_origins    = local.storage_account[each.key].blob_properties.cors_rule.allowed_origins
-          exposed_headers    = local.storage_account[each.key].blob_properties.cors_rule.exposed_headers
-          max_age_in_seconds = local.storage_account[each.key].blob_properties.cors_rule.max_age_in_seconds
+          allowed_headers    = local.storage_account[each.key].blob_properties.cors_rule[cors_rule.key].allowed_headers
+          allowed_methods    = local.storage_account[each.key].blob_properties.cors_rule[cors_rule.key].allowed_methods
+          allowed_origins    = local.storage_account[each.key].blob_properties.cors_rule[cors_rule.key].allowed_origins
+          exposed_headers    = local.storage_account[each.key].blob_properties.cors_rule[cors_rule.key].exposed_headers
+          max_age_in_seconds = local.storage_account[each.key].blob_properties.cors_rule[cors_rule.key].max_age_in_seconds
         }
       }
       dynamic "delete_retention_policy" {
@@ -89,11 +89,11 @@ resource "azurerm_storage_account" "storage_account" {
       dynamic "cors_rule" {
         for_each = local.storage_account[each.key].queue_properties.cors_rule
         content {
-          allowed_headers    = local.storage_account[each.key].queue_properties.cors_rule.allowed_headers
-          allowed_methods    = local.storage_account[each.key].queue_properties.cors_rule.allowed_methods
-          allowed_origins    = local.storage_account[each.key].queue_properties.cors_rule.allowed_origins
-          exposed_headers    = local.storage_account[each.key].queue_properties.cors_rule.exposed_headers
-          max_age_in_seconds = local.storage_account[each.key].queue_properties.cors_rule.max_age_in_seconds
+          allowed_headers    = local.storage_account[each.key].queue_properties.cors_rule[cors_rule.key].allowed_headers
+          allowed_methods    = local.storage_account[each.key].queue_properties.cors_rule[cors_rule.key].allowed_methods
+          allowed_origins    = local.storage_account[each.key].queue_properties.cors_rule[cors_rule.key].allowed_origins
+          exposed_headers    = local.storage_account[each.key].queue_properties.cors_rule[cors_rule.key].exposed_headers
+          max_age_in_seconds = local.storage_account[each.key].queue_properties.cors_rule[cors_rule.key].max_age_in_seconds
         }
       }
       dynamic "logging" {
