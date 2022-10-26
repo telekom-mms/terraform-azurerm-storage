@@ -49,9 +49,22 @@ locals {
         type         = ""
         identity_ids = null
       }
-      blob_properties  = {}
-      queue_properties = {}
-      static_website   = {}
+      blob_properties = {
+        versioning_enabled                = false
+        change_feed_enabled               = false
+        default_service_version           = "2020-06-12"
+        last_access_time_enabled          = false
+        cors_rule                         = {}
+        delete_retention_policy           = {}
+        container_delete_retention_policy = {}
+      }
+      queue_properties = {
+        cors_rule      = {}
+        logging        = {}
+        minute_metrics = {}
+        hour_metrics   = {}
+      }
+      static_website = {}
       network_rules = {
         default_action             = ""
         bypass                     = null
@@ -94,6 +107,18 @@ locals {
     for storage_account in keys(var.storage_account) :
     storage_account => merge(local.default.storage_account, var.storage_account[storage_account])
   }
+  storage_account_blob_properties_values = {
+    for storage_account in keys(var.storage_account) :
+    storage_account => {
+      blob_properties = merge(local.default.storage_account.blob_properties, local.storage_account_values[storage_account].blob_properties)
+    }
+  }
+  storage_account_queue_properties_values = {
+    for storage_account in keys(var.storage_account) :
+    storage_account => {
+      queue_properties = merge(local.default.storage_account.queue_properties, local.storage_account_values[storage_account].queue_properties)
+    }
+  }
   storage_share_values = {
     for storage_share in keys(var.storage_share) :
     storage_share => merge(local.default.storage_share, var.storage_share[storage_share])
@@ -108,6 +133,28 @@ locals {
         #for config in ["custom_domain", "customer_managed_key", "identity", "blob_properties", "queue_properties", "static_website", "network_rules", "azure_files_authentication", "routing", "queue_encryption_key_type", "table_encryption_key_type", "infrastructure_encryption_enabled"] :
         for config in ["custom_domain", "customer_managed_key", "identity", "static_website", "azure_files_authentication", "routing", ] :
         config => merge(local.default.storage_account[config], local.storage_account_values[storage_account][config])
+      },
+      {
+        blob_properties = merge(
+          local.storage_account_blob_properties_values[storage_account].blob_properties,
+          {
+            cors_rule = {
+              for key in keys(local.storage_account_blob_properties_values[storage_account].blob_properties.cors_rule) :
+              key => merge(local.default.storage_account.blob_properties.cors_rule, local.storage_account_blob_properties_values[storage_account].blob_properties.cors_rule[key])
+            }
+          }
+        )
+      },
+      {
+        queue_properties = merge(
+          local.storage_account_queue_properties_values[storage_account].queue_properties,
+          {
+            cors_rule = {
+              for key in keys(local.storage_account_queue_properties_values[storage_account].queue_properties.cors_rule) :
+              key => merge(local.default.storage_account.queue_properties.cors_rule, local.storage_account_queue_properties_values[storage_account].queue_properties.cors_rule[key])
+            }
+          }
+        )
       }
     )
   }
