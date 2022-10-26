@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.3](https://github.com/T-Systems-MMS/terraform-azurerm-storage/tree/2.0.3) (2022-07-26)
+
+[Full Changelog](https://github.com/T-Systems-MMS/terraform-azurerm-storage/compare/2.0.2...2.0.3)
+
+**Implemented enhancements:**
+
+- add more output attributes [\#16](https://github.com/T-Systems-MMS/terraform-azurerm-storage/pull/16) ([michaelamattes](https://github.com/michaelamattes))
+
 ## [2.0.2](https://github.com/T-Systems-MMS/terraform-azurerm-storage/tree/2.0.2) (2022-05-09)
 
 [Full Changelog](https://github.com/T-Systems-MMS/terraform-azurerm-storage/compare/2.0.1...2.0.2)
