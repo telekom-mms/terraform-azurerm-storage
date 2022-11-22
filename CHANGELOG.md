@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.4](https://github.com/T-Systems-MMS/terraform-azurerm-storage/tree/2.0.4) (2022-10-26)
+
+[Full Changelog](https://github.com/T-Systems-MMS/terraform-azurerm-storage/compare/2.0.3...2.0.4)
+
+**Implemented enhancements:**
+
+- Improve cors rules settings [\#17](https://github.com/T-Systems-MMS/terraform-azurerm-storage/pull/17) ([habr-mms](https://github.com/habr-mms))
+
 ## [2.0.3](https://github.com/T-Systems-MMS/terraform-azurerm-storage/tree/2.0.3) (2022-07-26)
 
 [Full Changelog](https://github.com/T-Systems-MMS/terraform-azurerm-storage/compare/2.0.2...2.0.3)
