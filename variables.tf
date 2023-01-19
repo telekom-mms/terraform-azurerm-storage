@@ -87,6 +87,8 @@ locals {
     storage_share = {
       name     = ""
       metadata = {}
+      access_tier = "Hot"
+      enabled_protocol = null
       quota    = "50"
       acl = {
         permissions = "rl"
