@@ -90,11 +90,7 @@ locals {
       access_tier = "Hot"
       enabled_protocol = null
       quota    = "50"
-      acl = {
-        permissions = "rl"
-        start       = ""
-        expiry      = ""
-      }
+      acl = {}
       tags = {}
     }
     storage_share_directory = {
