@@ -84,7 +84,7 @@ resource "azurerm_storage_account" "storage_account" {
   }
 
   dynamic "queue_properties" {
-    for_each = local.storage_account[each.key].queue_properties.cors_rule != {} || local.storage_account[each.key].queue_properties.logging != {} || local.storage_account[each.key].queue_properties.minute_metrics != {} || local.storage_account[each.key].queue_properties.hour_metrics != {} ? [1] : []  
+    for_each = local.storage_account[each.key].queue_properties.cors_rule != {} || local.storage_account[each.key].queue_properties.logging != {} || local.storage_account[each.key].queue_properties.minute_metrics != {} || local.storage_account[each.key].queue_properties.hour_metrics != {} ? [1] : []
     content {
       dynamic "cors_rule" {
         for_each = local.storage_account[each.key].queue_properties.cors_rule
@@ -198,21 +198,21 @@ resource "azurerm_storage_share" "storage_share" {
   name                 = local.storage_share[each.key].name == "" ? each.key : local.storage_share[each.key].name
   metadata             = local.storage_share[each.key].metadata
   storage_account_name = local.storage_share[each.key].storage_account_name
-  access_tier = local.storage_share[each.key].access_tier
-  enabled_protocol = local.storage_share[each.key].enabled_protocol
+  access_tier          = local.storage_share[each.key].access_tier
+  enabled_protocol     = local.storage_share[each.key].enabled_protocol
   quota                = local.storage_share[each.key].quota
 
   dynamic "acl" {
     for_each = local.storage_share[each.key].acl != {} ? [1] : []
     content {
-      id = local.storage_account[each.key].acl[acl.key].id
+      id = local.storage_share[each.key].acl[acl.key].id
 
       dynamic "access_policy" {
         for_each = local.storage_share[each.key].acl[acl.key].access_policy != {} ? [1] : []
         content {
-          permissions = local.storage_account[each.key].acl[acl.key].access_policy[access_policy.key].permissions
-          start       = local.storage_account[each.key].acl[acl.key].access_policy[access_policy.key].start
-          expiry      = local.storage_account[each.key].acl[acl.key].access_policy[access_policy.key].expiry
+          permissions = local.storage_share[each.key].acl[acl.key].access_policy[access_policy.key].permissions
+          start       = local.storage_share[each.key].acl[acl.key].access_policy[access_policy.key].start
+          expiry      = local.storage_share[each.key].acl[acl.key].access_policy[access_policy.key].expiry
         }
       }
     }

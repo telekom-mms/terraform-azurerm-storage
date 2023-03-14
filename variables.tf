@@ -85,13 +85,13 @@ locals {
       tags                  = {}
     }
     storage_share = {
-      name     = ""
-      metadata = {}
-      access_tier = "Hot"
+      name             = ""
+      metadata         = {}
+      access_tier      = "Hot"
       enabled_protocol = null
-      quota    = "50"
-      acl = {}
-      tags = {}
+      quota            = "50"
+      acl              = {}
+      tags             = {}
     }
     storage_share_directory = {
       name     = ""
