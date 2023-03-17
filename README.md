@@ -10,13 +10,13 @@ This module manages Azure Storage Configuration.
 | Name | Version |
 |------|---------|
 | terraform | >=1.1 |
-| azurerm | >=3.5 |
+| azurerm | >=3.6 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| azurerm | >=3.5 |
+| azurerm | >=3.6 |
 
 ## Resources
 
@@ -62,6 +62,18 @@ module "storage" {
         service = "service_name"
       }
     }
+    filestorage = {
+      name                      = "servicefilestg"
+      resource_group_name       = "service-infrastructure-rg"
+      location                  = "westeurope"
+      account_kind              = "FileStorage"
+      account_tier              = "Premium"
+      account_replication_type  = "LRS"
+      enable_https_traffic_only = false
+      tags = {
+        service = "service_name"
+      }
+    }
   }
   storage_container = {
     terraform = {
@@ -69,6 +81,14 @@ module "storage" {
       tags = {
         service = "service_name"
       }
+    }
+  }
+  storage_share = {
+    nfsfiles = {
+      storage_account_name = module.storage.storage_account.filestorage.name
+      access_tier          = "Premium"
+      enabled_protocol     = "NFS"
+      quota                = 100
     }
   }
 }
