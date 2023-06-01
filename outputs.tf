@@ -31,17 +31,6 @@ output "storage_share" {
   }
 }
 
-output "storage_account" {
-  description = "Outputs all attributes of resource_type."
-  value = {
-    for storage_account in keys(azurerm_storage_account.storage_account) :
-    storage_account => {
-      for key, value in azurerm_storage_account.storage_account[storage_account] :
-      key => value
-    }
-  }
-}
-
 output "storage_share_directory" {
   description = "Outputs all attributes of resource_type."
   value = {
