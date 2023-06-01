@@ -1,39 +1,82 @@
 output "storage_account" {
-  description = "azurerm_storage_account results"
+  description = "Outputs all attributes of resource_type."
   value = {
     for storage_account in keys(azurerm_storage_account.storage_account) :
     storage_account => {
-      id                             = azurerm_storage_account.storage_account[storage_account].id
-      name                           = azurerm_storage_account.storage_account[storage_account].name
-      resource_group_name            = azurerm_storage_account.storage_account[storage_account].resource_group_name
-      primary_access_key             = azurerm_storage_account.storage_account[storage_account].primary_access_key
-      primary_blob_endpoint          = azurerm_storage_account.storage_account[storage_account].primary_blob_endpoint
-      primary_blob_host              = azurerm_storage_account.storage_account[storage_account].primary_blob_host
-      primary_dfs_endpoint           = azurerm_storage_account.storage_account[storage_account].primary_dfs_endpoint
-      primary_dfs_host               = azurerm_storage_account.storage_account[storage_account].primary_dfs_host
-      primary_file_endpoint          = azurerm_storage_account.storage_account[storage_account].primary_file_endpoint
-      primary_file_host              = azurerm_storage_account.storage_account[storage_account].primary_file_host
-      primary_location               = azurerm_storage_account.storage_account[storage_account].primary_location
-      primary_queue_endpoint         = azurerm_storage_account.storage_account[storage_account].primary_queue_endpoint
-      primary_queue_host             = azurerm_storage_account.storage_account[storage_account].primary_queue_host
-      primary_table_endpoint         = azurerm_storage_account.storage_account[storage_account].primary_table_endpoint
-      primary_table_host             = azurerm_storage_account.storage_account[storage_account].primary_table_host
-      primary_web_endpoint           = azurerm_storage_account.storage_account[storage_account].primary_web_endpoint
-      primary_web_host               = azurerm_storage_account.storage_account[storage_account].primary_web_host
-      primary_connection_string      = azurerm_storage_account.storage_account[storage_account].primary_connection_string
-      primary_blob_connection_string = azurerm_storage_account.storage_account[storage_account].primary_blob_connection_string
+      for key, value in azurerm_storage_account.storage_account[storage_account] :
+      key => value
     }
   }
 }
 
 output "storage_container" {
-  description = "azurerm_storage_container results"
+  description = "Outputs all attributes of resource_type."
   value = {
     for storage_container in keys(azurerm_storage_container.storage_container) :
     storage_container => {
-      id                   = azurerm_storage_container.storage_container[storage_container].id
-      name                 = azurerm_storage_container.storage_container[storage_container].name
-      storage_account_name = azurerm_storage_container.storage_container[storage_container].storage_account_name
+      for key, value in azurerm_storage_container.storage_container[storage_container] :
+      key => value
+    }
+  }
+}
+
+output "storage_share" {
+  description = "Outputs all attributes of resource_type."
+  value = {
+    for storage_share in keys(azurerm_storage_share.storage_share) :
+    storage_share => {
+      for key, value in azurerm_storage_share.storage_share[storage_share] :
+      key => value
+    }
+  }
+}
+
+output "storage_account" {
+  description = "Outputs all attributes of resource_type."
+  value = {
+    for storage_account in keys(azurerm_storage_account.storage_account) :
+    storage_account => {
+      for key, value in azurerm_storage_account.storage_account[storage_account] :
+      key => value
+    }
+  }
+}
+
+output "storage_share_directory" {
+  description = "Outputs all attributes of resource_type."
+  value = {
+    for storage_share_directory in keys(azurerm_storage_share_directory.storage_share_directory) :
+    storage_share_directory => {
+      for key, value in azurerm_storage_share_directory.storage_share_directory[storage_share_directory] :
+      key => value
+    }
+  }
+}
+
+output "variables" {
+  description = "Displays all configurable variables passed by the module. __default__ = predefined values per module. __merged__ = result of merging the default values and custom values passed to the module"
+  value = {
+    default = {
+      for variable in keys(local.default) :
+      variable => local.default[variable]
+    }
+    merged = {
+      storage_account = {
+        for key in keys(var.storage_account) :
+        key => local.storage_account[key]
+      }
+      storage_container = {
+        for key in keys(var.storage_container) :
+        key => local.storage_container[key]
+      }
+      storage_share = {
+        for key in keys(var.storage_share) :
+        key => local.storage_share[key]
+      }
+      storage_share_directory = {
+        for key in keys(var.storage_share_directory) :
+        key => local.storage_share_directory[key]
+      }
     }
   }
 }
