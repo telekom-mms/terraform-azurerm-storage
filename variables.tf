@@ -26,7 +26,7 @@ locals {
       name                              = ""
       account_kind                      = null
       account_tier                      = "Standard" // defined default
-      account_replication_type          = "ZRS"  // defined default
+      account_replication_type          = "ZRS"      // defined default
       cross_tenant_replication_enabled  = false
       access_tier                       = null
       edge_zone                         = null
@@ -34,19 +34,18 @@ locals {
       min_tls_version                   = null
       allow_nested_items_to_be_public   = null
       shared_access_key_enabled         = null
-      public_network_access_enabled = null
-      default_to_oauth_authentication = null
+      public_network_access_enabled     = null
+      default_to_oauth_authentication   = null
       is_hns_enabled                    = null
       nfsv3_enabled                     = null
       large_file_share_enabled          = null
       queue_encryption_key_type         = null
       table_encryption_key_type         = null
       infrastructure_encryption_enabled = null
-      allowed_copy_scope  = null
-      sftp_enabled  = null
-
+      allowed_copy_scope                = null
+      sftp_enabled                      = null
       custom_domain = {
-        name = ""
+        name          = ""
         use_subdomain = null
       }
       customer_managed_key = {}
@@ -54,12 +53,12 @@ locals {
         identity_ids = null
       }
       blob_properties = {
-        versioning_enabled  = null
-        change_feed_enabled = null
-        change_feed_retention_in_days  = null
-        default_service_version  = null
-        last_access_time_enabled  = null
-        cors_rule = {}
+        versioning_enabled            = null
+        change_feed_enabled           = null
+        change_feed_retention_in_days = null
+        default_service_version       = null
+        last_access_time_enabled      = null
+        cors_rule                     = {}
         delete_retention_policy = {
           days = null
         }
@@ -69,22 +68,22 @@ locals {
         }
       }
       queue_properties = {
-        cors_rule      = {}
-        logging        = {
+        cors_rule = {}
+        logging = {
           retention_policy_days = null
         }
         minute_metrics = {
-          include_apis = null
+          include_apis          = null
           retention_policy_days = null
         }
-        hour_metrics   = {
-          include_apis = null
+        hour_metrics = {
+          include_apis          = null
           retention_policy_days = null
         }
       }
       static_website = {
-        index_document = null
-        error_404_document  = null
+        index_document     = null
+        error_404_document = null
       }
       share_properties = {
         cors_rule = {}
@@ -92,48 +91,50 @@ locals {
           days = null
         }
         smb = {
-          versions = null
-          authentication_types = null
-          kerberos_ticket_encryption_type  = null
-          channel_encryption_type  = null
-          multichannel_enabled  = null
+          versions                        = null
+          authentication_types            = null
+          kerberos_ticket_encryption_type = null
+          channel_encryption_type         = null
+          multichannel_enabled            = null
         }
       }
       network_rules = {
-        bypass = null
-        ip_rules = null
+        bypass                     = null
+        default_action             = "Deny" // defined default
+        ip_rules                   = null
         virtual_network_subnet_ids = null
         private_link_access = {
           endpoint_tenant_id = null
         }
       }
       azure_files_authentication = {
+        directory_type = ""
         active_directory = {}
       }
       routing = {
-        publish_internet_endpoints = null
+        publish_internet_endpoints  = null
         publish_microsoft_endpoints = null
-        choice = null
+        choice                      = null
       }
       immutability_policy = {}
-      sas_policy  = {
+      sas_policy = {
         expiration_action = null
       }
-      tags  = {}
+      tags = {}
     }
     storage_container = {
       name                  = ""
       container_access_type = null
-      metadata                   = null
+      metadata              = null
     }
     storage_share = {
       name             = ""
       access_tier      = "Hot"
       enabled_protocol = null
       metadata         = null
-      acl              = {
+      acl = {
         access_policy = {
-          start = null
+          start  = null
           expiry = null
         }
       }
@@ -178,7 +179,7 @@ locals {
           merge(local.default.storage_account[config], local.storage_account_values[storage_account][config]),
           {
             for subconfig in ["cors_rule", "delete_retention_policy", "restore_policy", "container_delete_retention_policy"] :
-            subconfig => merge(local.default.storage_account[config][subconfig], local.storage_account_values[storage_account][config][subconfig])
+            subconfig => merge(local.default.storage_account[config][subconfig], lookup(local.storage_account_values[storage_account][config], subconfig, {}))
           }
         )
       },
@@ -188,7 +189,7 @@ locals {
           merge(local.default.storage_account[config], local.storage_account_values[storage_account][config]),
           {
             for subconfig in ["cors_rule", "logging", "minute_metrics", "hour_metrics"] :
-            subconfig => merge(local.default.storage_account[config][subconfig], local.storage_account_values[storage_account][config][subconfig])
+            subconfig => merge(local.default.storage_account[config][subconfig], lookup(local.storage_account_values[storage_account][config], subconfig, {}))
           }
         )
       },
@@ -198,7 +199,7 @@ locals {
           merge(local.default.storage_account[config], local.storage_account_values[storage_account][config]),
           {
             for subconfig in ["cors_rule", "retention_policy", "smb"] :
-            subconfig => merge(local.default.storage_account[config][subconfig], local.storage_account_values[storage_account][config][subconfig])
+            subconfig => merge(local.default.storage_account[config][subconfig], lookup(local.storage_account_values[storage_account][config], subconfig, {}))
           }
         )
       },
@@ -208,7 +209,7 @@ locals {
           merge(local.default.storage_account[config], local.storage_account_values[storage_account][config]),
           {
             for subconfig in ["private_link_access"] :
-            subconfig => merge(local.default.storage_account[config][subconfig], local.storage_account_values[storage_account][config][subconfig])
+            subconfig => merge(local.default.storage_account[config][subconfig], lookup(local.storage_account_values[storage_account][config], subconfig, {}))
           }
         )
       }

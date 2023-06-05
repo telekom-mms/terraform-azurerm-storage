@@ -22,19 +22,19 @@ resource "azurerm_storage_account" "storage_account" {
   min_tls_version                   = local.storage_account[each.key].min_tls_version
   allow_nested_items_to_be_public   = local.storage_account[each.key].allow_nested_items_to_be_public
   shared_access_key_enabled         = local.storage_account[each.key].shared_access_key_enabled
-  public_network_access_enabled = local.storage_account[each.key].public_network_access_enabled
-  default_to_oauth_authentication = local.storage_account[each.key].default_to_oauth_authentication
+  public_network_access_enabled     = local.storage_account[each.key].public_network_access_enabled
+  default_to_oauth_authentication   = local.storage_account[each.key].default_to_oauth_authentication
   is_hns_enabled                    = local.storage_account[each.key].is_hns_enabled
   nfsv3_enabled                     = local.storage_account[each.key].nfsv3_enabled
   large_file_share_enabled          = local.storage_account[each.key].large_file_share_enabled
   queue_encryption_key_type         = local.storage_account[each.key].queue_encryption_key_type
   table_encryption_key_type         = local.storage_account[each.key].table_encryption_key_type
   infrastructure_encryption_enabled = local.storage_account[each.key].infrastructure_encryption_enabled
-  allowed_copy_scope = local.storage_account[each.key].allowed_copy_scope
-  sftp_enabled = local.storage_account[each.key].sftp_enabled
+  allowed_copy_scope                = local.storage_account[each.key].allowed_copy_scope
+  sftp_enabled                      = local.storage_account[each.key].sftp_enabled
 
   dynamic "custom_domain" {
-    for_each = local.storage_account[each.key].custom_domain.name == "" ? [] : [0]
+    for_each = flatten(compact(values(local.storage_account[each.key].custom_domain))) == [] ? [] : [0]
 
     content {
       name          = local.storage_account[each.key].custom_domain.name
@@ -43,7 +43,7 @@ resource "azurerm_storage_account" "storage_account" {
   }
 
   dynamic "customer_managed_key" {
-    for_each = flatten(compact(values(local.storage_account[each.key].customer_managed_key))) == [] ? [] : [0]
+    for_each = local.storage_account[each.key].customer_managed_key == {} ? [] : [0]
 
     content {
       key_vault_key_id          = local.storage_account[each.key].customer_managed_key.key_vault_key_id
@@ -61,7 +61,7 @@ resource "azurerm_storage_account" "storage_account" {
   }
 
   dynamic "blob_properties" {
-    for_each = local.storage_account[each.key].blob_properties
+    for_each = lookup(var.storage_account[each.key], "queue_properties", {}) == {} ? [] : [0]
 
     content {
       versioning_enabled       = local.storage_account[each.key].blob_properties.versioning_enabled
@@ -71,7 +71,7 @@ resource "azurerm_storage_account" "storage_account" {
       last_access_time_enabled = local.storage_account[each.key].blob_properties.last_access_time_enabled
 
       dynamic "cors_rule" {
-        for_each = local.storage_account[each.key].blob_properties.cors_rule
+        for_each = local.storage_account[each.key].blob_properties.cors_rule == {} ? [] : [0]
 
         content {
           allowed_headers    = local.storage_account[each.key].blob_properties.cors_rule[cors_rule.key].allowed_headers
@@ -83,7 +83,7 @@ resource "azurerm_storage_account" "storage_account" {
       }
 
       dynamic "delete_retention_policy" {
-        for_each = flatten(compact(values(local.storage_account[each.key].blob_properties.delete_retention_policy))) == [] ? [] : [0]
+        for_each = local.storage_account[each.key].blob_properties.delete_retention_policy == {} ? [] : [0]
 
         content {
           days = local.storage_account[each.key].blob_properties.delete_retention_policy.days
@@ -91,7 +91,7 @@ resource "azurerm_storage_account" "storage_account" {
       }
 
       dynamic "restore_policy" {
-        for_each = flatten(compact(values(local.storage_account[each.key].blob_properties.restore_policy))) == [] ? [] : [0]
+        for_each = local.storage_account[each.key].blob_properties.restore_policy == {} ? [] : [0]
 
         content {
           days = local.storage_account[each.key].blob_properties.restore_policy.days
@@ -99,7 +99,7 @@ resource "azurerm_storage_account" "storage_account" {
       }
 
       dynamic "container_delete_retention_policy" {
-        for_each = flatten(compact(values(local.storage_account[each.key].blob_properties.container_delete_retention_policy))) == [] ? [] : [0]
+        for_each = local.storage_account[each.key].blob_properties.container_delete_retention_policy == {} ? [] : [0]
 
         content {
           days = local.storage_account[each.key].blob_properties.container_delete_retention_policy.days
@@ -109,11 +109,11 @@ resource "azurerm_storage_account" "storage_account" {
   }
 
   dynamic "queue_properties" {
-    for_each = local.storage_account[each.key].queue_properties
+    for_each = lookup(var.storage_account[each.key], "queue_properties", {}) == {} ? [] : [0]
 
     content {
       dynamic "cors_rule" {
-        for_each = local.storage_account[each.key].queue_properties.cors_rule
+        for_each = local.storage_account[each.key].queue_properties.cors_rule == {} ? [] : [0]
 
         content {
           allowed_headers    = local.storage_account[each.key].queue_properties.cors_rule[cors_rule.key].allowed_headers
@@ -170,11 +170,11 @@ resource "azurerm_storage_account" "storage_account" {
   }
 
   dynamic "share_properties" {
-    for_each = flatten(compact(values(local.storage_account[each.key].share_properties))) == [] ? [] : [0]
+    for_each = lookup(var.storage_account[each.key], "share_properties", {}) == {} ? [] : [0]
 
     content {
         dynamic "cors_rule" {
-          for_each = local.storage_account[each.key].share_properties.cors_rule
+          for_each = local.storage_account[each.key].share_properties.cors_rule == {} ? [] : [0]
 
           content {
             allowed_headers    = local.storage_account[each.key].share_properties.cors_rule[cors_rule.key].allowed_headers
@@ -208,7 +208,7 @@ resource "azurerm_storage_account" "storage_account" {
   }
 
   dynamic "network_rules" {
-    for_each = local.storage_account[each.key].network_rules
+    for_each = lookup(var.storage_account[each.key], "network_rules", {}) == {} ? [] : [0]
 
     content {
       default_action             = local.storage_account[each.key].network_rules.default_action
@@ -228,7 +228,7 @@ resource "azurerm_storage_account" "storage_account" {
   }
 
   dynamic "azure_files_authentication" {
-    for_each = local.storage_account[each.key].azure_files_authentication
+    for_each = local.storage_account[each.key].azure_files_authentication.directory_type == "" ? [] : [0]
 
     content {
       directory_type = local.storage_account[each.key].azure_files_authentication.directory_type
@@ -248,37 +248,27 @@ resource "azurerm_storage_account" "storage_account" {
     }
   }
 
-  dynamic "routing" {
-    for_each = local.storage_account[each.key].routing
-
-    content {
-      publish_internet_endpoints  = local.storage_account[each.key].routing.publish_internet_endpoints
-      publish_microsoft_endpoints = local.storage_account[each.key].routing.publish_microsoft_endpoints
-      choice                      = local.storage_account[each.key].routing.choice
-    }
-  }
-
   dynamic "immutability_policy" {
     for_each = local.storage_account[each.key].immutability_policy == {} ? [] : [0]
 
     content {
-      allow_protected_append_writes  = local.storage_account[each.key].immutability_policy.allow_protected_append_writes
-      state  = local.storage_account[each.key].immutability_policy.state
+      allow_protected_append_writes = local.storage_account[each.key].immutability_policy.allow_protected_append_writes
+      state                         = local.storage_account[each.key].immutability_policy.state
       period_since_creation_in_days = local.storage_account[each.key].immutability_policy.period_since_creation_in_days
     }
   }
 
   dynamic "sas_policy" {
-    for_each = local.storage_account[each.key].sas_policy
+    for_each = flatten(compact(values(local.storage_account[each.key].sas_policy))) == [] ? [] : [0]
 
     content {
-      expiration_period   = local.storage_account[each.key].sas_policy.expiration_period
-      expiration_action  = local.storage_account[each.key].sas_policy.expiration_action
+      expiration_period = local.storage_account[each.key].sas_policy.expiration_period
+      expiration_action = local.storage_account[each.key].sas_policy.expiration_action
     }
   }
 
   dynamic "routing" {
-    for_each = local.storage_account[each.key].routing
+    for_each = flatten(compact(values(local.storage_account[each.key].routing))) == [] ? [] : [0]
 
     content {
       publish_internet_endpoints  = local.storage_account[each.key].routing.publish_internet_endpoints
@@ -296,7 +286,7 @@ resource "azurerm_storage_container" "storage_container" {
   name                  = local.storage_container[each.key].name == "" ? each.key : local.storage_container[each.key].name
   storage_account_name  = local.storage_container[each.key].storage_account_name
   container_access_type = local.storage_container[each.key].container_access_type
-  metadata  = local.storage_container[each.key].metadata
+  metadata              = local.storage_container[each.key].metadata
 }
 
 resource "azurerm_storage_share" "storage_share" {

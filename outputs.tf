@@ -67,5 +67,11 @@ output "variables" {
         key => local.storage_share_directory[key]
       }
     }
+    variable = {
+      storage_account = {
+        for key in keys(var.storage_account) :
+        key => var.storage_account[key]
+      }
+    }
   }
 }
