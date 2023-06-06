@@ -108,7 +108,7 @@ locals {
         }
       }
       azure_files_authentication = {
-        directory_type = ""
+        directory_type   = ""
         active_directory = {}
       }
       routing = {
@@ -175,7 +175,7 @@ locals {
       },
       {
         for config in ["blob_properties"] :
-        config => merge(
+        config => lookup(var.storage_account[storage_account], config, {}) == {} ? null : merge(
           merge(local.default.storage_account[config], local.storage_account_values[storage_account][config]),
           {
             for subconfig in ["cors_rule", "delete_retention_policy", "restore_policy", "container_delete_retention_policy"] :
@@ -185,7 +185,7 @@ locals {
       },
       {
         for config in ["queue_properties"] :
-        config => merge(
+        config => lookup(var.storage_account[storage_account], config, {}) == {} ? null : merge(
           merge(local.default.storage_account[config], local.storage_account_values[storage_account][config]),
           {
             for subconfig in ["cors_rule", "logging", "minute_metrics", "hour_metrics"] :
@@ -195,7 +195,7 @@ locals {
       },
       {
         for config in ["share_properties"] :
-        config => merge(
+        config => lookup(var.storage_account[storage_account], config, {}) == {} ? null : merge(
           merge(local.default.storage_account[config], local.storage_account_values[storage_account][config]),
           {
             for subconfig in ["cors_rule", "retention_policy", "smb"] :
@@ -205,7 +205,7 @@ locals {
       },
       {
         for config in ["network_rules"] :
-        config => merge(
+        config => lookup(var.storage_account[storage_account], config, {}) == {} ? null : merge(
           merge(local.default.storage_account[config], local.storage_account_values[storage_account][config]),
           {
             for subconfig in ["private_link_access"] :

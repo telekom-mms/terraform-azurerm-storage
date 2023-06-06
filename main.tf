@@ -61,14 +61,14 @@ resource "azurerm_storage_account" "storage_account" {
   }
 
   dynamic "blob_properties" {
-    for_each = lookup(var.storage_account[each.key], "queue_properties", {}) == {} ? [] : [0]
+    for_each = local.storage_account[each.key].blob_properties == null ? [] : [0]
 
     content {
-      versioning_enabled       = local.storage_account[each.key].blob_properties.versioning_enabled
-      change_feed_enabled      = local.storage_account[each.key].blob_properties.change_feed_enabled
+      versioning_enabled            = local.storage_account[each.key].blob_properties.versioning_enabled
+      change_feed_enabled           = local.storage_account[each.key].blob_properties.change_feed_enabled
       change_feed_retention_in_days = local.storage_account[each.key].blob_properties.change_feed_retention_in_days
-      default_service_version  = local.storage_account[each.key].blob_properties.default_service_version
-      last_access_time_enabled = local.storage_account[each.key].blob_properties.last_access_time_enabled
+      default_service_version       = local.storage_account[each.key].blob_properties.default_service_version
+      last_access_time_enabled      = local.storage_account[each.key].blob_properties.last_access_time_enabled
 
       dynamic "cors_rule" {
         for_each = local.storage_account[each.key].blob_properties.cors_rule == {} ? [] : [0]
@@ -109,7 +109,7 @@ resource "azurerm_storage_account" "storage_account" {
   }
 
   dynamic "queue_properties" {
-    for_each = lookup(var.storage_account[each.key], "queue_properties", {}) == {} ? [] : [0]
+    for_each = local.storage_account[each.key].queue_properties == null ? [] : [0]
 
     content {
       dynamic "cors_rule" {
@@ -170,45 +170,45 @@ resource "azurerm_storage_account" "storage_account" {
   }
 
   dynamic "share_properties" {
-    for_each = lookup(var.storage_account[each.key], "share_properties", {}) == {} ? [] : [0]
+    for_each = local.storage_account[each.key].share_properties == null ? [] : [0]
 
     content {
-        dynamic "cors_rule" {
-          for_each = local.storage_account[each.key].share_properties.cors_rule == {} ? [] : [0]
+      dynamic "cors_rule" {
+        for_each = local.storage_account[each.key].share_properties.cors_rule == {} ? [] : [0]
 
-          content {
-            allowed_headers    = local.storage_account[each.key].share_properties.cors_rule[cors_rule.key].allowed_headers
-            allowed_methods    = local.storage_account[each.key].share_properties.cors_rule[cors_rule.key].allowed_methods
-            allowed_origins    = local.storage_account[each.key].share_properties.cors_rule[cors_rule.key].allowed_origins
-            exposed_headers    = local.storage_account[each.key].share_properties.cors_rule[cors_rule.key].exposed_headers
-            max_age_in_seconds = local.storage_account[each.key].share_properties.cors_rule[cors_rule.key].max_age_in_seconds
-          }
+        content {
+          allowed_headers    = local.storage_account[each.key].share_properties.cors_rule[cors_rule.key].allowed_headers
+          allowed_methods    = local.storage_account[each.key].share_properties.cors_rule[cors_rule.key].allowed_methods
+          allowed_origins    = local.storage_account[each.key].share_properties.cors_rule[cors_rule.key].allowed_origins
+          exposed_headers    = local.storage_account[each.key].share_properties.cors_rule[cors_rule.key].exposed_headers
+          max_age_in_seconds = local.storage_account[each.key].share_properties.cors_rule[cors_rule.key].max_age_in_seconds
         }
+      }
 
-        dynamic "retention_policy" {
-          for_each = flatten(compact(values(local.storage_account[each.key].share_properties.retention_policy))) == [] ? [] : [0]
+      dynamic "retention_policy" {
+        for_each = flatten(compact(values(local.storage_account[each.key].share_properties.retention_policy))) == [] ? [] : [0]
 
-          content {
-            days    = local.storage_account[each.key].share_properties.retention_policy.days
-          }
+        content {
+          days = local.storage_account[each.key].share_properties.retention_policy.days
         }
+      }
 
-        dynamic "smb"  {
-          for_each = flatten(compact(values(local.storage_account[each.key].share_properties.smb))) == [] ? [] : [0]
+      dynamic "smb" {
+        for_each = flatten(compact(values(local.storage_account[each.key].share_properties.smb))) == [] ? [] : [0]
 
-          content {
-            versions     = local.storage_account[each.key].share_properties.smb.versions
-            authentication_types = local.storage_account[each.key].share_properties.smb.authentication_types
-            kerberos_ticket_encryption_type  = local.storage_account[each.key].share_properties.smb.kerberos_ticket_encryption_type
-            channel_encryption_type  = local.storage_account[each.key].share_properties.smb.channel_encryption_type
-            multichannel_enabled  = local.storage_account[each.key].share_properties.smb.multichannel_enabled
-          }
+        content {
+          versions                        = local.storage_account[each.key].share_properties.smb.versions
+          authentication_types            = local.storage_account[each.key].share_properties.smb.authentication_types
+          kerberos_ticket_encryption_type = local.storage_account[each.key].share_properties.smb.kerberos_ticket_encryption_type
+          channel_encryption_type         = local.storage_account[each.key].share_properties.smb.channel_encryption_type
+          multichannel_enabled            = local.storage_account[each.key].share_properties.smb.multichannel_enabled
         }
+      }
     }
   }
 
   dynamic "network_rules" {
-    for_each = lookup(var.storage_account[each.key], "network_rules", {}) == {} ? [] : [0]
+    for_each = local.storage_account[each.key].network_rules == null ? [] : [0]
 
     content {
       default_action             = local.storage_account[each.key].network_rules.default_action
