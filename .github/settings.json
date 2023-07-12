@@ -1,0 +1,15 @@
+{
+  "repos": {
+    "description": "A Terraform module that manages the storage resources from the azurerm provider.",
+    "visibility": "public",
+    "default_branch": "main",
+    "topics": [
+      "terraform",
+      "azure",
+      "storage-account",
+      "storage-container",
+      "storage-share",
+      "storage-share-directory"
+    ]
+  }
+}
