@@ -18,7 +18,7 @@ module "network" {
 }
 
 module "storage" {
-  source = "../terraform-azurerm-storage/"
+  source = "registry.terraform.io/telekom-mms/storage/azurerm"
   storage_account = {
     stmms = {
       location            = "westeurope"

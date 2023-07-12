@@ -1,4 +1,4 @@
-module "container" {
+module "storage" {
   source = "registry.terraform.io/telekom-mms/storage/azurerm"
   storage_account = {
     stmms = {
