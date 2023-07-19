@@ -34,7 +34,7 @@ resource "azurerm_storage_account" "storage_account" {
   sftp_enabled                      = local.storage_account[each.key].sftp_enabled
 
   dynamic "custom_domain" {
-    for_each = flatten(compact(values(local.storage_account[each.key].custom_domain))) == [] ? [] : [0]
+    for_each = length(compact(values(local.storage_account[each.key].custom_domain))) > 0 ? [0] : []
 
     content {
       name          = local.storage_account[each.key].custom_domain.name
@@ -52,7 +52,7 @@ resource "azurerm_storage_account" "storage_account" {
   }
 
   dynamic "identity" {
-    for_each = flatten(compact(values(local.storage_account[each.key].identity))) == [] ? [] : [0]
+    for_each = length(compact(values(local.storage_account[each.key].identity))) > 0 ? [0] : []
 
     content {
       type         = local.storage_account[each.key].identity.type
@@ -125,7 +125,7 @@ resource "azurerm_storage_account" "storage_account" {
       }
 
       dynamic "logging" {
-        for_each = flatten(compact(values(local.storage_account[each.key].queue_properties.logging))) == [] ? [] : [0]
+        for_each = length(compact(values(local.storage_account[each.key].queue_properties.logging))) > 0 ? [0] : []
 
         content {
           delete                = local.storage_account[each.key].queue_properties.logging.delete
@@ -137,7 +137,7 @@ resource "azurerm_storage_account" "storage_account" {
       }
 
       dynamic "minute_metrics" {
-        for_each = flatten(compact(values(local.storage_account[each.key].queue_properties.minute_metrics))) == [] ? [] : [0]
+        for_each = length(compact(values(local.storage_account[each.key].queue_properties.minute_metrics))) > 0 ? [0] : []
 
         content {
           enabled               = local.storage_account[each.key].queue_properties.minute_metrics.enabled
@@ -148,7 +148,7 @@ resource "azurerm_storage_account" "storage_account" {
       }
 
       dynamic "hour_metrics" {
-        for_each = flatten(compact(values(local.storage_account[each.key].queue_properties.hour_metrics))) == [] ? [] : [0]
+        for_each = length(compact(values(local.storage_account[each.key].queue_properties.hour_metrics))) > 0 ? [0] : []
 
         content {
           enabled               = local.storage_account[each.key].queue_properties.hour_metrics.enabled
@@ -161,7 +161,7 @@ resource "azurerm_storage_account" "storage_account" {
   }
 
   dynamic "static_website" {
-    for_each = flatten(compact(values(local.storage_account[each.key].static_website))) == [] ? [] : [0]
+    for_each = length(compact(values(local.storage_account[each.key].static_website))) > 0 ? [0] : []
 
     content {
       index_document     = local.storage_account[each.key].static_website.index_document
@@ -186,7 +186,7 @@ resource "azurerm_storage_account" "storage_account" {
       }
 
       dynamic "retention_policy" {
-        for_each = flatten(compact(values(local.storage_account[each.key].share_properties.retention_policy))) == [] ? [] : [0]
+        for_each = length(compact(values(local.storage_account[each.key].share_properties.retention_policy))) > 0 ? [0] : []
 
         content {
           days = local.storage_account[each.key].share_properties.retention_policy.days
@@ -194,7 +194,7 @@ resource "azurerm_storage_account" "storage_account" {
       }
 
       dynamic "smb" {
-        for_each = flatten(compact(values(local.storage_account[each.key].share_properties.smb))) == [] ? [] : [0]
+        for_each = length(compact(values(local.storage_account[each.key].share_properties.smb))) > 0 ? [0] : []
 
         content {
           versions                        = local.storage_account[each.key].share_properties.smb.versions
@@ -217,7 +217,7 @@ resource "azurerm_storage_account" "storage_account" {
       virtual_network_subnet_ids = local.storage_account[each.key].network_rules.virtual_network_subnet_ids
 
       dynamic "private_link_access" {
-        for_each = flatten(compact(values(local.storage_account[each.key].network_rules.private_link_access))) == [] ? [] : [0]
+        for_each = length(compact(values(local.storage_account[each.key].network_rules.private_link_access))) > 0 ? [0] : []
 
         content {
           endpoint_resource_id = local.storage_account[each.key].network_rules.private_link_access.endpoint_resource_id
@@ -259,7 +259,7 @@ resource "azurerm_storage_account" "storage_account" {
   }
 
   dynamic "sas_policy" {
-    for_each = flatten(compact(values(local.storage_account[each.key].sas_policy))) == [] ? [] : [0]
+    for_each = length(compact(values(local.storage_account[each.key].sas_policy))) > 0 ? [0] : []
 
     content {
       expiration_period = local.storage_account[each.key].sas_policy.expiration_period
@@ -268,7 +268,7 @@ resource "azurerm_storage_account" "storage_account" {
   }
 
   dynamic "routing" {
-    for_each = flatten(compact(values(local.storage_account[each.key].routing))) == [] ? [] : [0]
+    for_each = length(compact(values(local.storage_account[each.key].routing))) > 0 ? [0] : []
 
     content {
       publish_internet_endpoints  = local.storage_account[each.key].routing.publish_internet_endpoints
