@@ -8,6 +8,10 @@
 
 - Dependency Dashboard [\#9](https://github.com/telekom-mms/terraform-azurerm-storage/issues/9)
 
+**Merged pull requests:**
+
+- fix code style failures [\#24](https://github.com/telekom-mms/terraform-azurerm-storage/pull/24) ([michaelamattes](https://github.com/michaelamattes))
+
 ## [3.0.0](https://github.com/telekom-mms/terraform-azurerm-storage/tree/3.0.0) (2023-07-12)
 
 [Full Changelog](https://github.com/telekom-mms/terraform-azurerm-storage/compare/2.0.5...3.0.0)
