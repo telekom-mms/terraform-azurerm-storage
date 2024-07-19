@@ -6,6 +6,23 @@ module "storage" {
       resource_group_name = "rg-mms-github"
     }
   }
+  storage_management_policy = {
+    policy = {
+      storage_account_id = module.storage.storage_account.stmms.id
+      rule = {
+        rule1 = {
+          filters = {
+            blob_types = ["blockBlob"]
+          }
+          actions = {
+            base_blob = {
+              delete_after_days_since_modification_greater_than = 7
+            }
+          }
+        }
+      }
+    }
+  }
   storage_container = {
     terraform = {
       storage_account_name = module.storage.storage_account["stmms"].name

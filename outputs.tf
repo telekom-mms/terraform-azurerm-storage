@@ -9,6 +9,17 @@ output "storage_account" {
   }
 }
 
+output "storage_management_policy" {
+  description = "Outputs all attributes of resource_type."
+  value = {
+    for storage_management_policy in keys(azurerm_storage_management_policy.storage_management_policy) :
+    storage_management_policy => {
+      for key, value in azurerm_storage_management_policy.storage_management_policy[storage_management_policy] :
+      key => value
+    }
+  }
+}
+
 output "storage_container" {
   description = "Outputs all attributes of resource_type."
   value = {
@@ -54,6 +65,10 @@ output "variables" {
         for key in keys(var.storage_account) :
         key => local.storage_account[key]
       }
+      storage_management_policy = {
+        for key in keys(var.storage_management_policy) :
+        key => local.storage_management_policy[key]
+      }
       storage_container = {
         for key in keys(var.storage_container) :
         key => local.storage_container[key]
@@ -67,10 +82,40 @@ output "variables" {
         key => local.storage_share_directory[key]
       }
     }
+    values = {
+      storage_account = {
+        for key in keys(var.storage_account) :
+        key => local.storage_account_values[key]
+      }
+      storage_management_policy = {
+        for key in keys(var.storage_management_policy) :
+        key => local.storage_management_policy_values[key]
+      }
+      storage_share = {
+        for key in keys(var.storage_share) :
+        key => local.storage_share_values[key]
+      }
+    }
     variable = {
       storage_account = {
         for key in keys(var.storage_account) :
         key => var.storage_account[key]
+      }
+      storage_management_policy = {
+        for key in keys(var.storage_management_policy) :
+        key => var.storage_management_policy[key]
+      }
+      storage_container = {
+        for key in keys(var.storage_container) :
+        key => var.storage_container[key]
+      }
+      storage_share = {
+        for key in keys(var.storage_share) :
+        key => var.storage_share[key]
+      }
+      storage_share_directory = {
+        for key in keys(var.storage_share_directory) :
+        key => var.storage_share_directory[key]
       }
     }
   }
