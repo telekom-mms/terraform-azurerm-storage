@@ -27,11 +27,13 @@ resource "azurerm_storage_account" "storage_account" {
   is_hns_enabled                    = local.storage_account[each.key].is_hns_enabled
   nfsv3_enabled                     = local.storage_account[each.key].nfsv3_enabled
   large_file_share_enabled          = local.storage_account[each.key].large_file_share_enabled
+  local_user_enabled                = local.storage_account[each.key].local_user_enabled
   queue_encryption_key_type         = local.storage_account[each.key].queue_encryption_key_type
   table_encryption_key_type         = local.storage_account[each.key].table_encryption_key_type
   infrastructure_encryption_enabled = local.storage_account[each.key].infrastructure_encryption_enabled
   allowed_copy_scope                = local.storage_account[each.key].allowed_copy_scope
   sftp_enabled                      = local.storage_account[each.key].sftp_enabled
+  dns_endpoint_type                 = local.storage_account[each.key].dns_endpoint_type
 
   dynamic "custom_domain" {
     for_each = length(compact(values(local.storage_account[each.key].custom_domain))) > 0 ? [0] : []
@@ -43,10 +45,11 @@ resource "azurerm_storage_account" "storage_account" {
   }
 
   dynamic "customer_managed_key" {
-    for_each = local.storage_account[each.key].customer_managed_key == {} ? [] : [0]
+    for_each = length(compact(values(local.storage_account[each.key].customer_managed_key))) > 0 ? [0] : []
 
     content {
       key_vault_key_id          = local.storage_account[each.key].customer_managed_key.key_vault_key_id
+      managed_hsm_key_id        = local.storage_account[each.key].customer_managed_key.managed_hsm_key_id
       user_assigned_identity_id = local.storage_account[each.key].customer_managed_key.user_assigned_identity_id
     }
   }
@@ -86,7 +89,8 @@ resource "azurerm_storage_account" "storage_account" {
         for_each = local.storage_account[each.key].blob_properties.delete_retention_policy == {} ? [] : [0]
 
         content {
-          days = local.storage_account[each.key].blob_properties.delete_retention_policy.days
+          days                     = local.storage_account[each.key].blob_properties.delete_retention_policy.days
+          permanent_delete_enabled = local.storage_account[each.key].blob_properties.delete_retention_policy.permanent_delete_enabled
         }
       }
 
@@ -280,13 +284,92 @@ resource "azurerm_storage_account" "storage_account" {
   tags = local.storage_account[each.key].tags
 }
 
+resource "azurerm_storage_management_policy" "storage_management_policy" {
+  for_each = var.storage_management_policy
+
+  storage_account_id = local.storage_management_policy[each.key].storage_account_id
+
+  dynamic "rule" {
+    for_each = local.storage_management_policy[each.key].rule
+
+    content {
+      name    = local.storage_management_policy[each.key].rule[rule.key].name == "" ? rule.key : local.storage_management_policy[each.key].rule[rule.key].name
+      enabled = local.storage_management_policy[each.key].rule[rule.key].enabled
+
+      filters {
+        blob_types   = local.storage_management_policy[each.key].rule[rule.key].filters.blob_types
+        prefix_match = local.storage_management_policy[each.key].rule[rule.key].filters.prefix_match
+
+        dynamic "match_blob_index_tag" {
+          for_each = length(compact(values(local.storage_management_policy[each.key].rule[rule.key].filters.match_blob_index_tag))) > 0 ? [0] : []
+
+          content {
+            name      = local.storage_management_policy[each.key].rule[rule.key].filters.match_blob_index_tag.name
+            value     = local.storage_management_policy[each.key].rule[rule.key].filters.match_blob_index_tag.value
+            operation = local.storage_management_policy[each.key].rule[rule.key].filters.match_blob_index_tag.operation
+          }
+        }
+      }
+
+      actions {
+        dynamic "base_blob" {
+          for_each = length(compact(values(local.storage_management_policy[each.key].rule[rule.key].actions.base_blob))) > 0 ? [0] : []
+
+          content {
+            tier_to_cool_after_days_since_modification_greater_than        = local.storage_management_policy[each.key].rule[rule.key].actions.base_blob.tier_to_cool_after_days_since_modification_greater_than
+            tier_to_cool_after_days_since_last_access_time_greater_than    = local.storage_management_policy[each.key].rule[rule.key].actions.base_blob.tier_to_cool_after_days_since_last_access_time_greater_than
+            tier_to_cool_after_days_since_creation_greater_than            = local.storage_management_policy[each.key].rule[rule.key].actions.base_blob.tier_to_cool_after_days_since_creation_greater_than
+            auto_tier_to_hot_from_cool_enabled                             = local.storage_management_policy[each.key].rule[rule.key].actions.base_blob.auto_tier_to_hot_from_cool_enabled
+            tier_to_archive_after_days_since_modification_greater_than     = local.storage_management_policy[each.key].rule[rule.key].actions.base_blob.tier_to_archive_after_days_since_modification_greater_than
+            tier_to_archive_after_days_since_last_access_time_greater_than = local.storage_management_policy[each.key].rule[rule.key].actions.base_blob.tier_to_archive_after_days_since_last_access_time_greater_than
+            tier_to_archive_after_days_since_creation_greater_than         = local.storage_management_policy[each.key].rule[rule.key].actions.base_blob.tier_to_archive_after_days_since_creation_greater_than
+            tier_to_archive_after_days_since_last_tier_change_greater_than = local.storage_management_policy[each.key].rule[rule.key].actions.base_blob.tier_to_archive_after_days_since_last_tier_change_greater_than
+            tier_to_cold_after_days_since_modification_greater_than        = local.storage_management_policy[each.key].rule[rule.key].actions.base_blob.tier_to_cold_after_days_since_modification_greater_than
+            tier_to_cold_after_days_since_last_access_time_greater_than    = local.storage_management_policy[each.key].rule[rule.key].actions.base_blob.tier_to_cold_after_days_since_last_access_time_greater_than
+            tier_to_cold_after_days_since_creation_greater_than            = local.storage_management_policy[each.key].rule[rule.key].actions.base_blob.tier_to_cold_after_days_since_creation_greater_than
+            delete_after_days_since_modification_greater_than              = local.storage_management_policy[each.key].rule[rule.key].actions.base_blob.delete_after_days_since_modification_greater_than
+            delete_after_days_since_last_access_time_greater_than          = local.storage_management_policy[each.key].rule[rule.key].actions.base_blob.delete_after_days_since_last_access_time_greater_than
+            delete_after_days_since_creation_greater_than                  = local.storage_management_policy[each.key].rule[rule.key].actions.base_blob.delete_after_days_since_creation_greater_than
+          }
+        }
+
+        dynamic "snapshot" {
+          for_each = length(compact(values(local.storage_management_policy[each.key].rule[rule.key].actions.snapshot))) > 0 ? [0] : []
+
+          content {
+            change_tier_to_archive_after_days_since_creation               = local.storage_management_policy[each.key].rule[rule.key].actions.snapshot.change_tier_to_archive_after_days_since_creation
+            tier_to_archive_after_days_since_last_tier_change_greater_than = local.storage_management_policy[each.key].rule[rule.key].actions.snapshot.tier_to_archive_after_days_since_last_tier_change_greater_than
+            change_tier_to_cool_after_days_since_creation                  = local.storage_management_policy[each.key].rule[rule.key].actions.snapshot.change_tier_to_cool_after_days_since_creation
+            tier_to_cold_after_days_since_creation_greater_than            = local.storage_management_policy[each.key].rule[rule.key].actions.snapshot.tier_to_cold_after_days_since_creation_greater_than
+            delete_after_days_since_creation_greater_than                  = local.storage_management_policy[each.key].rule[rule.key].actions.snapshot.delete_after_days_since_creation_greater_than
+          }
+        }
+
+        dynamic "version" {
+          for_each = length(compact(values(local.storage_management_policy[each.key].rule[rule.key].actions.version))) > 0 ? [0] : []
+
+          content {
+            change_tier_to_archive_after_days_since_creation               = local.storage_management_policy[each.key].rule[rule.key].actions.version.change_tier_to_archive_after_days_since_creation
+            tier_to_archive_after_days_since_last_tier_change_greater_than = local.storage_management_policy[each.key].rule[rule.key].actions.version.tier_to_archive_after_days_since_last_tier_change_greater_than
+            change_tier_to_cool_after_days_since_creation                  = local.storage_management_policy[each.key].rule[rule.key].actions.version.change_tier_to_cool_after_days_since_creation
+            tier_to_cold_after_days_since_creation_greater_than            = local.storage_management_policy[each.key].rule[rule.key].actions.version.tier_to_cold_after_days_since_creation_greater_than
+            delete_after_days_since_creation                               = local.storage_management_policy[each.key].rule[rule.key].actions.version.delete_after_days_since_creation
+          }
+        }
+      }
+    }
+  }
+}
+
 resource "azurerm_storage_container" "storage_container" {
   for_each = var.storage_container
 
-  name                  = local.storage_container[each.key].name == "" ? each.key : local.storage_container[each.key].name
-  storage_account_name  = local.storage_container[each.key].storage_account_name
-  container_access_type = local.storage_container[each.key].container_access_type
-  metadata              = local.storage_container[each.key].metadata
+  name                              = local.storage_container[each.key].name == "" ? each.key : local.storage_container[each.key].name
+  storage_account_name              = local.storage_container[each.key].storage_account_name
+  container_access_type             = local.storage_container[each.key].container_access_type
+  default_encryption_scope          = local.storage_container[each.key].default_encryption_scope
+  encryption_scope_override_enabled = local.storage_container[each.key].encryption_scope_override_enabled
+  metadata                          = local.storage_container[each.key].metadata
 }
 
 resource "azurerm_storage_share" "storage_share" {

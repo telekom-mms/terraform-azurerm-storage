@@ -3,6 +3,11 @@ variable "storage_account" {
   default     = {}
   description = "Resource definition, default settings are defined within locals and merged with var settings. For more information look at [Outputs](#Outputs)."
 }
+variable "storage_management_policy" {
+  type        = any
+  default     = {}
+  description = "Resource definition, default settings are defined within locals and merged with var settings. For more information look at [Outputs](#Outputs)."
+}
 variable "storage_container" {
   type        = any
   default     = {}
@@ -39,16 +44,21 @@ locals {
       is_hns_enabled                    = null
       nfsv3_enabled                     = null
       large_file_share_enabled          = null
+      local_user_enabled                = null
       queue_encryption_key_type         = null
       table_encryption_key_type         = null
       infrastructure_encryption_enabled = null
       allowed_copy_scope                = null
       sftp_enabled                      = null
+      dns_endpoint_type                 = null
       custom_domain = {
         name          = ""
         use_subdomain = null
       }
-      customer_managed_key = {}
+      customer_managed_key = {
+        key_vault_key_id   = null
+        managed_hsm_key_id = null
+      }
       identity = {
         identity_ids = null
       }
@@ -60,7 +70,8 @@ locals {
         last_access_time_enabled      = null
         cors_rule                     = {}
         delete_retention_policy = {
-          days = null
+          days                     = null
+          permanent_delete_enabled = null
         }
         restore_policy = {}
         container_delete_retention_policy = {
@@ -122,10 +133,56 @@ locals {
       }
       tags = {}
     }
+    storage_management_policy = {
+      rule = {
+        name    = ""
+        enabled = true // defined default
+        filters = {
+          prefix_match = []
+          match_blob_index_tag = {
+            operation = null
+          }
+        }
+        actions = {
+          base_blob = {
+            tier_to_cool_after_days_since_modification_greater_than        = null
+            tier_to_cool_after_days_since_last_access_time_greater_than    = null
+            tier_to_cool_after_days_since_creation_greater_than            = null
+            auto_tier_to_hot_from_cool_enabled                             = null
+            tier_to_archive_after_days_since_modification_greater_than     = null
+            tier_to_archive_after_days_since_last_access_time_greater_than = null
+            tier_to_archive_after_days_since_creation_greater_than         = null
+            tier_to_archive_after_days_since_last_tier_change_greater_than = null
+            tier_to_cold_after_days_since_modification_greater_than        = null
+            tier_to_cold_after_days_since_last_access_time_greater_than    = null
+            tier_to_cold_after_days_since_creation_greater_than            = null
+            delete_after_days_since_modification_greater_than              = null
+            delete_after_days_since_last_access_time_greater_than          = null
+            delete_after_days_since_creation_greater_than                  = null
+          }
+          snapshot = {
+            change_tier_to_archive_after_days_since_creation               = null
+            tier_to_archive_after_days_since_last_tier_change_greater_than = null
+            change_tier_to_cool_after_days_since_creation                  = null
+            tier_to_cold_after_days_since_creation_greater_than            = null
+            delete_after_days_since_creation_greater_than                  = null
+          }
+          version = {
+            change_tier_to_archive_after_days_since_creation               = null
+            tier_to_archive_after_days_since_last_tier_change_greater_than = null
+            change_tier_to_cool_after_days_since_creation                  = null
+            tier_to_cold_after_days_since_creation_greater_than            = null
+            delete_after_days_since_creation                               = null
+          }
+        }
+      }
+    }
     storage_container = {
-      name                  = ""
-      container_access_type = null
-      metadata              = null
+      name                              = ""
+      container_access_type             = null
+      default_encryption_scope          = null
+      encryption_scope_override_enabled = null
+      metadata                          = null
     }
     storage_share = {
       name             = ""
@@ -149,6 +206,10 @@ locals {
   storage_account_values = {
     for storage_account in keys(var.storage_account) :
     storage_account => merge(local.default.storage_account, var.storage_account[storage_account])
+  }
+  storage_management_policy_values = {
+    for storage_management_policy in keys(var.storage_management_policy) :
+    storage_management_policy => merge(local.default.storage_management_policy, var.storage_management_policy[storage_management_policy])
   }
   storage_share_values = {
     for storage_share in keys(var.storage_share) :
@@ -212,6 +273,41 @@ locals {
             subconfig => merge(local.default.storage_account[config][subconfig], lookup(local.storage_account_values[storage_account][config], subconfig, {}))
           }
         )
+      }
+    )
+  }
+  storage_management_policy = {
+    for storage_management_policy in keys(var.storage_management_policy) :
+    storage_management_policy => merge(
+      local.storage_management_policy_values[storage_management_policy],
+      {
+        for config in ["rule"] :
+        config => lookup(var.storage_management_policy[storage_management_policy], config, {}) == {} ? {} : {
+          for key in keys(local.storage_management_policy_values[storage_management_policy][config]) :
+          key => merge(
+            merge(local.default.storage_management_policy[config], local.storage_management_policy_values[storage_management_policy][config][key]),
+            {
+              for subconfig in ["filters"] :
+              subconfig => merge(
+                merge(local.default.storage_management_policy[config][subconfig], local.storage_management_policy_values[storage_management_policy][config][key][subconfig]),
+                {
+                  for subsubconfig in ["match_blob_index_tag"] :
+                  subsubconfig => merge(local.default.storage_management_policy[config][subconfig][subsubconfig], lookup(local.storage_management_policy_values[storage_management_policy][config][key][subconfig], subsubconfig, {}))
+                }
+              )
+            },
+            {
+              for subconfig in ["actions"] :
+              subconfig => merge(
+                merge(local.default.storage_management_policy[config][subconfig], local.storage_management_policy_values[storage_management_policy][config][key][subconfig]),
+                {
+                  for subsubconfig in ["base_blob", "snapshot", "version"] :
+                  subsubconfig => merge(local.default.storage_management_policy[config][subconfig][subsubconfig], lookup(local.storage_management_policy_values[storage_management_policy][config][key][subconfig], subsubconfig, {}))
+                }
+              )
+            }
+          )
+        }
       }
     )
   }
