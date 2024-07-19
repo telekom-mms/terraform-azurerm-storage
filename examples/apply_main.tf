@@ -27,6 +27,47 @@ module "storage" {
         ip_rules                   = ["172.0.0.2"]
         virtual_network_subnet_ids = [module.network.subnet["snet-app-mms"].id]
       }
+      blob_properties = {
+        last_access_time_enabled = true
+      }
+      tags = {
+        project     = "mms-github"
+        environment = terraform.workspace
+        managed-by  = "terraform"
+      }
+    }
+  }
+  storage_management_policy = {
+    policy = {
+      storage_account_id = module.storage.storage_account.stmms.id
+      rule = {
+        rule1 = {
+          filters = {
+            blob_types   = ["blockBlob"]
+            prefix_match = ["terraform"]
+            match_blob_index_tag = {
+              name      = "project"
+              value     = "mms-github"
+              operation = "=="
+            }
+          }
+          actions = {
+            base_blob = {
+              tier_to_cool_after_days_since_last_access_time_greater_than = 7
+              auto_tier_to_hot_from_cool_enabled                          = true
+              tier_to_cold_after_days_since_modification_greater_than     = 30
+            }
+            snapshot = {
+              tier_to_archive_after_days_since_last_tier_change_greater_than = 60
+              delete_after_days_since_creation_greater_than                  = 180
+            }
+            version = {
+              tier_to_cold_after_days_since_creation_greater_than = 30
+              delete_after_days_since_creation                    = 90
+            }
+          }
+        }
+      }
     }
   }
   storage_container = {
