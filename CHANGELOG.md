@@ -1,12 +1,20 @@
 # Changelog
 
+## [3.0.2](https://github.com/telekom-mms/terraform-azurerm-storage/tree/3.0.2) (2024-08-28)
+
+[Full Changelog](https://github.com/telekom-mms/terraform-azurerm-storage/compare/3.0.1...3.0.2)
+
+**Implemented enhancements:**
+
+- Pin version of azurerm to compatible state   [\#29](https://github.com/telekom-mms/terraform-azurerm-storage/pull/29) ([michaelamattes](https://github.com/michaelamattes))
+
+**Merged pull requests:**
+
+- run terrascan in test setting directory [\#25](https://github.com/telekom-mms/terraform-azurerm-storage/pull/25) ([michaelamattes](https://github.com/michaelamattes))
+
 ## [3.0.1](https://github.com/telekom-mms/terraform-azurerm-storage/tree/3.0.1) (2023-07-19)
 
 [Full Changelog](https://github.com/telekom-mms/terraform-azurerm-storage/compare/3.0.0...3.0.1)
-
-**Closed issues:**
-
-- Dependency Dashboard [\#9](https://github.com/telekom-mms/terraform-azurerm-storage/issues/9)
 
 **Merged pull requests:**
 
