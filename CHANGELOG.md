@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.0.3](https://github.com/telekom-mms/terraform-azurerm-storage/tree/3.0.3) (2025-05-28)
+
+[Full Changelog](https://github.com/telekom-mms/terraform-azurerm-storage/compare/3.0.2...3.0.3)
+
+**Implemented enhancements:**
+
+- New resource storage management policy and attributes [\#26](https://github.com/telekom-mms/terraform-azurerm-storage/pull/26) ([habr-mms](https://github.com/habr-mms))
+
 ## [3.0.2](https://github.com/telekom-mms/terraform-azurerm-storage/tree/3.0.2) (2024-08-28)
 
 [Full Changelog](https://github.com/telekom-mms/terraform-azurerm-storage/compare/3.0.1...3.0.2)
