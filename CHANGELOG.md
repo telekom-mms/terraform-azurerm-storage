@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.0.4](https://github.com/telekom-mms/terraform-azurerm-storage/tree/3.0.4) (2025-08-28)
+
+[Full Changelog](https://github.com/telekom-mms/terraform-azurerm-storage/compare/3.0.3...3.0.4)
+
+**Fixed bugs:**
+
+- fix terrascan workflow run [\#30](https://github.com/telekom-mms/terraform-azurerm-storage/pull/30) ([michaelamattes](https://github.com/michaelamattes))
+
 ## [3.0.3](https://github.com/telekom-mms/terraform-azurerm-storage/tree/3.0.3) (2025-05-28)
 
 [Full Changelog](https://github.com/telekom-mms/terraform-azurerm-storage/compare/3.0.2...3.0.3)
