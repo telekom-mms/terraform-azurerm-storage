@@ -198,6 +198,7 @@ locals {
     }
     storage_share_directory = {
       name     = ""
+      id       = null
       metadata = null
     }
   }
