@@ -18,7 +18,7 @@ resource "azurerm_storage_account" "storage_account" {
   cross_tenant_replication_enabled  = local.storage_account[each.key].cross_tenant_replication_enabled
   access_tier                       = local.storage_account[each.key].access_tier
   edge_zone                         = local.storage_account[each.key].edge_zone
-  https_traffic_only_enabled        = local.storage_account[each.key].enable_https_traffic_only
+  https_traffic_only_enabled        = local.storage_account[each.key].https_traffic_only_enabled
   min_tls_version                   = local.storage_account[each.key].min_tls_version
   allow_nested_items_to_be_public   = local.storage_account[each.key].allow_nested_items_to_be_public
   shared_access_key_enabled         = local.storage_account[each.key].shared_access_key_enabled
