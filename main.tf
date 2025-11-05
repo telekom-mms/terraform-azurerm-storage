@@ -404,7 +404,7 @@ resource "azurerm_storage_share" "storage_share" {
 resource "azurerm_storage_share_directory" "storage_share_directory" {
   for_each = var.storage_share_directory
 
-  name                 = local.storage_share_directory[each.key].name == "" ? each.key : local.storage_share_directory[each.key].name
-  storage_share_id     = local.storage_share_directory[each.key].storage_share_id
-  metadata             = local.storage_share_directory[each.key].metadata
+  name             = local.storage_share_directory[each.key].name == "" ? each.key : local.storage_share_directory[each.key].name
+  storage_share_id = local.storage_share_directory[each.key].storage_share_id
+  metadata         = local.storage_share_directory[each.key].metadata
 }
