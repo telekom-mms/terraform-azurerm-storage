@@ -35,7 +35,7 @@ locals {
       cross_tenant_replication_enabled  = false
       access_tier                       = null
       edge_zone                         = null
-      enable_https_traffic_only         = null
+      https_traffic_only_enabled        = null
       min_tls_version                   = null
       allow_nested_items_to_be_public   = false // defined default
       shared_access_key_enabled         = null
@@ -198,6 +198,7 @@ locals {
     }
     storage_share_directory = {
       name     = ""
+      id       = null
       metadata = null
     }
   }
