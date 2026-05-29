@@ -365,7 +365,7 @@ resource "azurerm_storage_container" "storage_container" {
   for_each = var.storage_container
 
   name                              = local.storage_container[each.key].name == "" ? each.key : local.storage_container[each.key].name
-  storage_account_name              = local.storage_container[each.key].storage_account_name
+  storage_account_id                = local.storage_container[each.key].storage_account_id
   container_access_type             = local.storage_container[each.key].container_access_type
   default_encryption_scope          = local.storage_container[each.key].default_encryption_scope
   encryption_scope_override_enabled = local.storage_container[each.key].encryption_scope_override_enabled
@@ -375,12 +375,12 @@ resource "azurerm_storage_container" "storage_container" {
 resource "azurerm_storage_share" "storage_share" {
   for_each = var.storage_share
 
-  name                 = local.storage_share[each.key].name == "" ? each.key : local.storage_share[each.key].name
-  storage_account_name = local.storage_share[each.key].storage_account_name
-  access_tier          = local.storage_share[each.key].access_tier
-  enabled_protocol     = local.storage_share[each.key].enabled_protocol
-  quota                = local.storage_share[each.key].quota
-  metadata             = local.storage_share[each.key].metadata
+  name               = local.storage_share[each.key].name == "" ? each.key : local.storage_share[each.key].name
+  storage_account_id = local.storage_share[each.key].storage_account_id
+  access_tier        = local.storage_share[each.key].access_tier
+  enabled_protocol   = local.storage_share[each.key].enabled_protocol
+  quota              = local.storage_share[each.key].quota
+  metadata           = local.storage_share[each.key].metadata
 
   dynamic "acl" {
     for_each = local.storage_share[each.key].acl
@@ -404,7 +404,7 @@ resource "azurerm_storage_share" "storage_share" {
 resource "azurerm_storage_share_directory" "storage_share_directory" {
   for_each = var.storage_share_directory
 
-  name             = local.storage_share_directory[each.key].name == "" ? each.key : local.storage_share_directory[each.key].name
-  storage_share_id = local.storage_share_directory[each.key].storage_share_id
-  metadata         = local.storage_share_directory[each.key].metadata
+  name              = local.storage_share_directory[each.key].name == "" ? each.key : local.storage_share_directory[each.key].name
+  storage_share_url = local.storage_share_directory[each.key].storage_share_url
+  metadata          = local.storage_share_directory[each.key].metadata
 }
