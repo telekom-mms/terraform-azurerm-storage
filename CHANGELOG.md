@@ -1,8 +1,12 @@
 # Changelog
 
-## [4.0.1](https://github.com/telekom-mms/terraform-azurerm-storage/tree/4.0.1) (2026-03-30)
+## [4.0.1](https://github.com/telekom-mms/terraform-azurerm-storage/tree/4.0.1) (2026-05-29)
 
 [Full Changelog](https://github.com/telekom-mms/terraform-azurerm-storage/compare/4.0.0...4.0.1)
+
+**Implemented enhancements:**
+
+- feat: Kept module up to date by replacing deprecated names arguments [\#34](https://github.com/telekom-mms/terraform-azurerm-storage/pull/34) ([habr-mms](https://github.com/habr-mms))
 
 **Merged pull requests:**
 
